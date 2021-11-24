@@ -6,11 +6,12 @@
 /*   By: iraqi <iraqi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 10:40:35 by iraqi             #+#    #+#             */
-/*   Updated: 2021/11/23 17:02:52 by iraqi            ###   ########.fr       */
+/*   Updated: 2021/11/24 12:31:33 by iraqi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
 char	*get_next_line(int fd)
 {
 	char	*str;
@@ -25,7 +26,7 @@ char	*get_next_line(int fd)
 	str = malloc(sizeof(char)*(BUFFER_SIZE + 1));
 	if (!str)
 		return (NULL);
-	while (j < BUFFER_SIZE)
+	while (j < BUFFER_SIZE || c != '\n')
 	{
 		r = read(fd, &c, 1);
 		if (r == -1)
@@ -34,6 +35,7 @@ char	*get_next_line(int fd)
 		if (c == '\n' || r == 0)
 			break ;
 	}
+	
 	if (r == 0)
 		return (NULL);
 	str[j] = '\0';
@@ -46,14 +48,29 @@ int main(void)
 	char	*str;
 	
 	fd = open("test.txt",O_RDONLY);
+
+	// while (str)
+	// {
 	str = get_next_line(fd);
-	while (str)
-	{
-		printf("%s", str);
-		printf("//");
-		free(str);
-		str = get_next_line(fd);
+	printf("%s", str);
+	free(str);
+	
+	printf("\n");
+	
+ 	str = get_next_line(fd);
+	printf("%s", str);
+	free(str);
+	
+	printf("\n");
+	
+ 	str = get_next_line(fd);
+	printf("%s", str);
+	free(str);
+
+	// 	printf("//");
+	// 	free(str);
+	// 	str = get_next_line(fd);
 		
-	}
+	// }
 	return (0);
 }
