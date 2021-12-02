@@ -46,8 +46,8 @@ char	*get_next_line(int fd)
 			r = read(fd, &c, 1);
 			if (r == 0)
 			{
-				if (j == 0)
-					return (NULL);
+				if (j == 0 && bytes == 0)
+					return (free(str),NULL);
 				str[j + bytes] ='\0';
 				tmp = ft_strdup(str);
 				return (free(str),str = tmp, str);
