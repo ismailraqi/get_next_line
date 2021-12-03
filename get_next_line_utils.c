@@ -6,7 +6,7 @@
 /*   By: iraqi <iraqi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 10:40:37 by iraqi             #+#    #+#             */
-/*   Updated: 2021/11/26 23:51:11 by iraqi            ###   ########.fr       */
+/*   Updated: 2021/12/03 19:39:40 by iraqi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,47 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 		i--;
 	}
 	return (dest);
+}
+
+// void	*ft_reader(s_args *args, char *c, int fd)
+// {
+// 	while ((args->j < BUFFER_SIZE) && *c != '\n')
+// 	{
+// 		args->r = read(fd, c, 1);
+// 		if (args->r == 0)
+// 		{
+// 			if (args->j == 0 && args->bytes == 0)
+// 				return (free(args->str), NULL);
+// 			args->str[args->j + args->bytes] ='\0';
+// 			args->tmp = ft_strdup(args->str);
+// 			return (free(args->str),args->str = args->tmp, args->str);
+// 		}
+// 		if (args->r == -1)
+// 			return (free(args->str), NULL);
+// 		args->str[args->bytes + args->j++] = *c;
+// 	}
+// 	return (0);
+// }
+// void	ft_gnl_initializer(s_args *args)
+// {
+// 	if (BUFFER_SIZE <= 0)
+// 		args->flag = 1;
+// 	args->str = malloc(sizeof(char)*(BUFFER_SIZE + 1));
+// 	if (!args->str)
+// 	{
+// 		args->flag = 1;
+// 		return ;
+// 	}
+// 	args->bytes = 0;
+// 	args->j = 0;
+// }
+
+
+char	*ft_checker(s_args *args)
+{
+	if (args->j == 0 && args->bytes == 0)
+		return (free(args->str), NULL);
+	args->str[args->j + args->bytes] ='\0';
+	args->tmp = ft_strdup(args->str);
+	return (free(args->str),args->str = args->tmp, args->str);
 }

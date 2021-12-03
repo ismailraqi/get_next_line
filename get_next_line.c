@@ -6,7 +6,7 @@
 /*   By: iraqi <iraqi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 10:40:35 by iraqi             #+#    #+#             */
-/*   Updated: 2021/11/27 00:16:23 by iraqi            ###   ########.fr       */
+/*   Updated: 2021/12/03 19:39:19 by iraqi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,90 +25,85 @@ char	*ft_joiner(char *str, int bytes)
 
 char	*get_next_line(int fd)
 {
-	char	*str;
-	char	*tmp;
 	static char	c;
-	int		j;
-	int		r;
-	int		bytes;
-
+	s_args args;
+	
 	if (BUFFER_SIZE <= 0)
 		return (NULL);
-	str = malloc(sizeof(char)*(BUFFER_SIZE + 1));
-	if (!str)
+	args.str = malloc(sizeof(char)*(BUFFER_SIZE + 1));
+	if (!args.str)
 		return (NULL);
-	bytes = 0;
-	j = 0;
+	args.bytes = 0;
+	args.j = 0;
 	while (1)
 	{
-		while ((j < BUFFER_SIZE) && c != '\n')
+		while ((args.j < BUFFER_SIZE) && c != '\n')
 		{
-			r = read(fd, &c, 1);
-			if (r == 0)
+			args.r = read(fd, &c, 1);
+			if (args.r == 0)
 			{
-				if (j == 0)
-					return (NULL);
-				str[j + bytes] ='\0';
-				tmp = ft_strdup(str);
-				return (free(str),str = tmp, str);
+				args.str = ft_checker(&args);
+				if (args.str == NULL)
+					return NULL;
+				return args.str;
 			}
-			if (r == -1)
-				return (free(str), NULL);
-			str[bytes + j++] = c;
+			if (args.r == -1)
+				return (free(args.str), NULL);
+			args.str[args.bytes + args.j++] = c;
 		}
-		str[bytes + j] = '\0';
+		args.str[args.bytes + args.j] = '\0';
 		if (c == '\n')
 		{
-			tmp = ft_strdup(str);
+			args.tmp = ft_strdup(args.str);
 			c = 0;
-			return (free(str),str = tmp, str);
+			return (free(args.str),args.str = args.tmp, args.str);
 		}
-		bytes += j;
-		j = 0;
-		str = ft_joiner(str, bytes);
-		if (!str)
+		args.bytes += args.j;
+		args.j = 0;
+		args.str = ft_joiner(args.str, args.bytes);
+		if (!args.str)
 			return (NULL);
 	}
-	str[j] = '\0';
-	return (str);	
+	args.str[args.j] = '\0';
+	return (args.str);	
 }
 
-// int main(void)
-// {
-// 	char	*str;
-// 	int	fd;
-// 	int fd1;
+int main(void)
+{
+	char	*str;
+	int	fd;
+	//int fd1;
 
-// 	fd = open("test.txt", O_RDONLY);
-// 	// str = get_next_line(fd);
-// 	// while (str)
-// 	// {
-// 	// 	printf("%s|",str);
-// 	// 	free(str);
-// 	// 	str = get_next_line(fd);	
-// 	// }
-// 	fd1 = open("titi.txt", O_RDONLY);
-// 	str = get_next_line(fd);
-// 	printf("%s", str);
-// 	free(str);
-// 	str = get_next_line(fd);
-// 	printf("%s", str);
-// 	free(str);
-// 	str = get_next_line(fd1);
-// 	printf("%s", str);
-// 	free(str);
-// 	str = get_next_line(fd);
-// 	printf("%s", str);
-// 	free(str);
-// 	str = get_next_line(fd);
-// 	printf("%s", str);
-// 	free(str);
-// 	close(fd);
-// 	close(fd1);
-// 	// while (str)
-// 	// {
-// 	// 	str = get_next_line(fd);
+	fd = open("test.txt", O_RDONLY);
+	str = get_next_line(fd);
+	while (str)
+	{
+		printf("%s|",str);
+		free(str);
+		str = get_next_line(fd);	
+	}
+	// fd1 = open("titi.txt", O_RDONLY);
+	// str = get_next_line(fd);
+	// printf("%s", str);
+	// free(str);
+	// str = get_next_line(fd);
+	// printf("%s", str);
+	// free(str);
+	// str = get_next_line(fd1);
+	// printf("%s", str);
+	// free(str);
+	// str = get_next_line(fd);
+	// printf("%s", str);
+	// free(str);
+	// str = get_next_line(fd);
+	// printf("%s", str);
+	// free(str);
+	// close(fd);
+	// close(fd1);
+	// while (str)
+	// {
+	// 	str = get_next_line(fd);
 
-// 	// }
-// 	return (0);
-// }
+	// }
+	return (0);
+}
